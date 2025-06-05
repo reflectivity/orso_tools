@@ -64,7 +64,13 @@
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
            </property>
-           <widget class="QTreeView" name="header_tree"/>
+           <widget class="QTreeWidget" name="header_tree">
+            <column>
+             <property name="text">
+              <string notr="true">1</string>
+             </property>
+            </column>
+           </widget>
            <widget class="QTextBrowser" name="header_data"/>
           </widget>
          </item>

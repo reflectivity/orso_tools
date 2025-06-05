@@ -14,8 +14,8 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient, QCursor, Q
                            QImage, QKeySequence, QLinearGradient, QPainter, QPalette, QPixmap, QRadialGradient,
                            QTransform)
 from PySide6.QtWidgets import (QApplication, QHeaderView, QListWidget, QListWidgetItem, QMainWindow, QMenu, QMenuBar,
-                               QSizePolicy, QSplitter, QStatusBar, QTabWidget, QTextBrowser, QTreeView, QVBoxLayout,
-                               QWidget)
+                               QSizePolicy, QSplitter, QStatusBar, QTabWidget, QTextBrowser, QTreeWidget,
+                               QTreeWidgetItem, QVBoxLayout, QWidget)
 
 from .mpl_canvas import MplCanvas
 
@@ -67,7 +67,10 @@ class Ui_MainWindow(object):
         self.splitter_2 = QSplitter(self.header_tab)
         self.splitter_2.setObjectName("splitter_2")
         self.splitter_2.setOrientation(Qt.Horizontal)
-        self.header_tree = QTreeView(self.splitter_2)
+        self.header_tree = QTreeWidget(self.splitter_2)
+        __qtreewidgetitem = QTreeWidgetItem()
+        __qtreewidgetitem.setText(0, "1")
+        self.header_tree.setHeaderItem(__qtreewidgetitem)
         self.header_tree.setObjectName("header_tree")
         self.splitter_2.addWidget(self.header_tree)
         self.header_data = QTextBrowser(self.splitter_2)

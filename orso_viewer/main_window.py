@@ -1,7 +1,7 @@
 from orsopy import fileio
 from orsopy.fileio import model_language
-from PySide6.QtCore import QObject, QRunnable, QThreadPool, Signal, Slot
-from PySide6.QtWidgets import QMainWindow
+from PySide6.QtCore import QObject, QRunnable, Qt, QThreadPool, Signal, Slot
+from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem
 
 from orso_viewer.ui_main_window import Ui_MainWindow
 
@@ -65,6 +65,9 @@ class MainWindow(QMainWindow):
         self.datasets = []
         self.threadpool = QThreadPool()
 
+        self.ui.header_tree.setColumnCount(2)
+        self.ui.header_tree.setHeaderLabels(["Key", "Type"])
+
     def read_file(self, filename):
         self.datasets = fileio.load_orso(filename)
 
@@ -76,6 +79,7 @@ class MainWindow(QMainWindow):
     @Slot(int)
     def dataset_selected(self, index):
         self.plot_dataset(index)
+        self.update_header(index)
 
     def plot_dataset(self, index):
         dataset = self.datasets[index]
@@ -105,3 +109,19 @@ class MainWindow(QMainWindow):
         sc.axes.semilogy(x, ysim, label="model")
         sc.axes.legend()
         sc.draw()
+
+    def update_header(self, index):
+        tv = self.ui.header_tree
+        dataset: fileio.OrsoDataset = self.datasets[index]
+        data = dataset.info.to_dict()
+        items = []
+        for key, value in data.items():
+            obj = getattr(dataset.info, key)
+            item = QTreeWidgetItem([key, obj.__class__.__name__])
+            item.setData(0, Qt.ItemDataRole.UserRole, obj)
+            # ext = str(value)
+            # child = QTreeWidgetItem([value, ext])
+            # item.addChild(child)
+            items.append(item)
+
+        tv.insertTopLevelItems(0, items)
