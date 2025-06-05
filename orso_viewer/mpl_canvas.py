@@ -1,8 +1,10 @@
 import os
+
 os.environ["QT_API"] = "PySide6"
 
-from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas  # noqa: E402
+from matplotlib.figure import Figure  # noqa: E402
+
 
 class MplCanvas(FigureCanvas):
 

@@ -8,37 +8,34 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
-    QSize, QTime, QUrl, Qt)
-from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
-    QCursor, QFont, QFontDatabase, QGradient,
-    QIcon, QImage, QKeySequence, QLinearGradient,
-    QPainter, QPalette, QPixmap, QRadialGradient,
-    QTransform)
-from PySide6.QtWidgets import (QApplication, QHeaderView, QListWidget, QListWidgetItem,
-    QMainWindow, QMenu, QMenuBar, QSizePolicy,
-    QSplitter, QStatusBar, QTabWidget, QTextBrowser,
-    QTreeView, QVBoxLayout, QWidget)
+from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale, QMetaObject, QObject, QPoint, QRect, QSize, Qt,
+                            QTime, QUrl)
+from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase, QGradient, QIcon,
+                           QImage, QKeySequence, QLinearGradient, QPainter, QPalette, QPixmap, QRadialGradient,
+                           QTransform)
+from PySide6.QtWidgets import (QApplication, QHeaderView, QListWidget, QListWidgetItem, QMainWindow, QMenu, QMenuBar,
+                               QSizePolicy, QSplitter, QStatusBar, QTabWidget, QTextBrowser, QTreeView, QVBoxLayout,
+                               QWidget)
 
 from .mpl_canvas import MplCanvas
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
-            MainWindow.setObjectName(u"MainWindow")
+            MainWindow.setObjectName("MainWindow")
         MainWindow.resize(945, 634)
         self.actionOpen = QAction(MainWindow)
-        self.actionOpen.setObjectName(u"actionOpen")
+        self.actionOpen.setObjectName("actionOpen")
         self.centralwidget = QWidget(MainWindow)
-        self.centralwidget.setObjectName(u"centralwidget")
+        self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout_2 = QVBoxLayout(self.centralwidget)
-        self.verticalLayout_2.setObjectName(u"verticalLayout_2")
+        self.verticalLayout_2.setObjectName("verticalLayout_2")
         self.splitter = QSplitter(self.centralwidget)
-        self.splitter.setObjectName(u"splitter")
+        self.splitter.setObjectName("splitter")
         self.splitter.setOrientation(Qt.Horizontal)
         self.dataset_list = QListWidget(self.splitter)
-        self.dataset_list.setObjectName(u"dataset_list")
+        self.dataset_list.setObjectName("dataset_list")
         sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
         sizePolicy.setHorizontalStretch(1)
         sizePolicy.setVerticalStretch(0)
@@ -47,41 +44,41 @@ class Ui_MainWindow(object):
         self.dataset_list.setMinimumSize(QSize(120, 0))
         self.splitter.addWidget(self.dataset_list)
         self.tabWidget = QTabWidget(self.splitter)
-        self.tabWidget.setObjectName(u"tabWidget")
+        self.tabWidget.setObjectName("tabWidget")
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
         sizePolicy1.setHorizontalStretch(10)
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.tabWidget.sizePolicy().hasHeightForWidth())
         self.tabWidget.setSizePolicy(sizePolicy1)
         self.plot_tab = QWidget()
-        self.plot_tab.setObjectName(u"plot_tab")
+        self.plot_tab.setObjectName("plot_tab")
         self.verticalLayout = QVBoxLayout(self.plot_tab)
-        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setObjectName("verticalLayout")
         self.data_plot = MplCanvas(self.plot_tab)
-        self.data_plot.setObjectName(u"data_plot")
+        self.data_plot.setObjectName("data_plot")
 
         self.verticalLayout.addWidget(self.data_plot)
 
         self.tabWidget.addTab(self.plot_tab, "")
         self.header_tab = QWidget()
-        self.header_tab.setObjectName(u"header_tab")
+        self.header_tab.setObjectName("header_tab")
         self.verticalLayout_3 = QVBoxLayout(self.header_tab)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.splitter_2 = QSplitter(self.header_tab)
-        self.splitter_2.setObjectName(u"splitter_2")
+        self.splitter_2.setObjectName("splitter_2")
         self.splitter_2.setOrientation(Qt.Horizontal)
         self.header_tree = QTreeView(self.splitter_2)
-        self.header_tree.setObjectName(u"header_tree")
+        self.header_tree.setObjectName("header_tree")
         self.splitter_2.addWidget(self.header_tree)
         self.header_data = QTextBrowser(self.splitter_2)
-        self.header_data.setObjectName(u"header_data")
+        self.header_data.setObjectName("header_data")
         self.splitter_2.addWidget(self.header_data)
 
         self.verticalLayout_3.addWidget(self.splitter_2)
 
         self.tabWidget.addTab(self.header_tab, "")
         self.sample_tab = QWidget()
-        self.sample_tab.setObjectName(u"sample_tab")
+        self.sample_tab.setObjectName("sample_tab")
         self.tabWidget.addTab(self.sample_tab, "")
         self.splitter.addWidget(self.tabWidget)
 
@@ -89,13 +86,13 @@ class Ui_MainWindow(object):
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
-        self.menubar.setObjectName(u"menubar")
+        self.menubar.setObjectName("menubar")
         self.menubar.setGeometry(QRect(0, 0, 945, 21))
         self.menuFile = QMenu(self.menubar)
-        self.menuFile.setObjectName(u"menuFile")
+        self.menuFile.setObjectName("menuFile")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
-        self.statusbar.setObjectName(u"statusbar")
+        self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
         self.menubar.addAction(self.menuFile.menuAction())
@@ -106,16 +103,23 @@ class Ui_MainWindow(object):
 
         self.tabWidget.setCurrentIndex(0)
 
-
         QMetaObject.connectSlotsByName(MainWindow)
+
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
-        self.actionOpen.setText(QCoreApplication.translate("MainWindow", u"Open...", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.plot_tab), QCoreApplication.translate("MainWindow", u"Data", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.header_tab), QCoreApplication.translate("MainWindow", u"Header Information", None))
-        self.tabWidget.setTabText(self.tabWidget.indexOf(self.sample_tab), QCoreApplication.translate("MainWindow", u"Sample", None))
-        self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
-    # retranslateUi
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", "MainWindow", None))
+        self.actionOpen.setText(QCoreApplication.translate("MainWindow", "Open...", None))
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.plot_tab), QCoreApplication.translate("MainWindow", "Data", None)
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.header_tab),
+            QCoreApplication.translate("MainWindow", "Header Information", None),
+        )
+        self.tabWidget.setTabText(
+            self.tabWidget.indexOf(self.sample_tab), QCoreApplication.translate("MainWindow", "Sample", None)
+        )
+        self.menuFile.setTitle(QCoreApplication.translate("MainWindow", "File", None))
 
+    # retranslateUi

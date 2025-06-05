@@ -1,8 +1,7 @@
-from PySide6.QtCore import QRunnable, Signal, Slot, QThreadPool, QObject
-from PySide6.QtWidgets import QMainWindow
-
 from orsopy import fileio
 from orsopy.fileio import model_language
+from PySide6.QtCore import QObject, QRunnable, QThreadPool, Signal, Slot
+from PySide6.QtWidgets import QMainWindow
 
 from orso_viewer.ui_main_window import Ui_MainWindow
 
@@ -11,13 +10,15 @@ try:
 except ImportError:
     refnx = None
 
+
 class WorkerSignals(QObject):
     finished = Signal()
+
 
 class SimulationWorker(QRunnable):
     """Thread to analyze a sample model in the background."""
 
-    def __init__(self, sample_model:model_language.SampleModel, x, xray_energy=None):
+    def __init__(self, sample_model: model_language.SampleModel, x, xray_energy=None):
         super(SimulationWorker, self).__init__()
         self.sample_model = sample_model
         self.x = x
@@ -80,10 +81,10 @@ class MainWindow(QMainWindow):
         dataset = self.datasets[index]
         sc = self.ui.data_plot
         sc.axes.clear()
-        sc.axes.errorbar(dataset.data[:, 0], dataset.data[:, 1], dataset.data[:, 2], label='data')
-        sc.axes.set_yscale('log')
-        sc.axes.set_xlabel(dataset.info.columns[0].name + ' / ' + (dataset.info.columns[0].unit or ""))
-        sc.axes.set_ylabel(dataset.info.columns[1].name + ' / ' + (dataset.info.columns[1].unit or "1"))
+        sc.axes.errorbar(dataset.data[:, 0], dataset.data[:, 1], dataset.data[:, 2], label="data")
+        sc.axes.set_yscale("log")
+        sc.axes.set_xlabel(dataset.info.columns[0].name + " / " + (dataset.info.columns[0].unit or ""))
+        sc.axes.set_ylabel(dataset.info.columns[1].name + " / " + (dataset.info.columns[1].unit or "1"))
 
         try:
             sample_model = dataset.info.data_source.sample.model
@@ -95,13 +96,12 @@ class MainWindow(QMainWindow):
                 self.worker.signals.finished.connect(self.plot_simulation)
                 self.threadpool.start(self.worker)
 
-
     @Slot()
     def plot_simulation(self):
         worker = self.worker
         x = worker.x
         ysim = worker.ysim
         sc = self.ui.data_plot
-        sc.axes.semilogy(x, ysim, label='model')
+        sc.axes.semilogy(x, ysim, label="model")
         sc.axes.legend()
         sc.draw()
