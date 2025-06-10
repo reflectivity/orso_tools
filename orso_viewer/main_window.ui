@@ -42,7 +42,7 @@
         </sizepolicy>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="plot_tab">
         <attribute name="title">
@@ -69,12 +69,9 @@
              <item>
               <layout class="QHBoxLayout" name="horizontalLayout">
                <item>
-                <widget class="QToolButton" name="toolButton">
+                <widget class="QToolButton" name="button_expand">
                  <property name="text">
                   <string>...</string>
-                 </property>
-                 <property name="icon">
-                  <iconset theme="list-add"/>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -85,19 +82,43 @@
                 </widget>
                </item>
                <item>
-                <widget class="QToolButton" name="toolButton_2">
+                <widget class="QToolButton" name="button_collapse">
                  <property name="text">
                   <string>...</string>
                  </property>
                 </widget>
                </item>
+               <item>
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
               </layout>
              </item>
              <item>
               <widget class="QTreeWidget" name="header_tree">
+               <property name="columnCount">
+                <number>2</number>
+               </property>
+               <attribute name="headerDefaultSectionSize">
+                <number>200</number>
+               </attribute>
                <column>
                 <property name="text">
                  <string notr="true">1</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string notr="true">2</string>
                 </property>
                </column>
               </widget>
@@ -193,6 +214,38 @@ p, li { white-space: pre-wrap; }
     <hint type="destinationlabel">
      <x>382</x>
      <y>22</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>button_expand</sender>
+   <signal>pressed()</signal>
+   <receiver>header_tree</receiver>
+   <slot>expandAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>159</x>
+     <y>84</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>207</x>
+     <y>214</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>button_collapse</sender>
+   <signal>pressed()</signal>
+   <receiver>header_tree</receiver>
+   <slot>collapseAll()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>200</x>
+     <y>80</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>266</x>
+     <y>175</y>
     </hint>
    </hints>
   </connection>

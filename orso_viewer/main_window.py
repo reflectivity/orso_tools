@@ -1,7 +1,7 @@
 from orsopy import fileio
 from orsopy.fileio import model_language
 from PySide6.QtCore import QObject, QRunnable, Qt, QThreadPool, Signal, Slot
-from PySide6.QtWidgets import QMainWindow, QTreeWidgetItem
+from PySide6.QtWidgets import QMainWindow, QStyle, QTreeWidgetItem
 
 from orso_viewer.ui_main_window import Ui_MainWindow
 
@@ -73,6 +73,9 @@ class MainWindow(QMainWindow):
         font.setFamily("Courier New")
         doc.setDefaultFont(font)
 
+        self.ui.button_expand.setIcon(self.style().standardIcon(QStyle.SP_TitleBarUnshadeButton))
+        self.ui.button_collapse.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
+
     def read_file(self, filename):
         self.datasets = fileio.load_orso(filename)
 
@@ -113,7 +116,7 @@ class MainWindow(QMainWindow):
         sc = self.ui.data_plot
         sc.axes.semilogy(x, ysim, label="model")
         sc.axes.legend()
-        sc.draw()
+        sc.fig.draw_idle()
 
     def build_subtree(self, parent, data, obj):
         for key, value in data.items():

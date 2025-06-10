@@ -18,9 +18,9 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QListWidget,
     QListWidgetItem, QMainWindow, QMenu, QMenuBar,
-    QSizePolicy, QSplitter, QStatusBar, QTabWidget,
-    QTextBrowser, QToolButton, QTreeWidget, QTreeWidgetItem,
-    QVBoxLayout, QWidget)
+    QSizePolicy, QSpacerItem, QSplitter, QStatusBar,
+    QTabWidget, QTextBrowser, QToolButton, QTreeWidget,
+    QTreeWidgetItem, QVBoxLayout, QWidget)
 
 from .mpl_canvas import MplCanvas
 
@@ -78,27 +78,32 @@ class Ui_MainWindow(object):
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.toolButton = QToolButton(self.verticalLayoutWidget)
-        self.toolButton.setObjectName(u"toolButton")
-        icon = QIcon(QIcon.fromTheme(u"list-add"))
-        self.toolButton.setIcon(icon)
-        self.toolButton.setIconSize(QSize(24, 16))
+        self.button_expand = QToolButton(self.verticalLayoutWidget)
+        self.button_expand.setObjectName(u"button_expand")
+        self.button_expand.setIconSize(QSize(24, 16))
 
-        self.horizontalLayout.addWidget(self.toolButton)
+        self.horizontalLayout.addWidget(self.button_expand)
 
-        self.toolButton_2 = QToolButton(self.verticalLayoutWidget)
-        self.toolButton_2.setObjectName(u"toolButton_2")
+        self.button_collapse = QToolButton(self.verticalLayoutWidget)
+        self.button_collapse.setObjectName(u"button_collapse")
 
-        self.horizontalLayout.addWidget(self.toolButton_2)
+        self.horizontalLayout.addWidget(self.button_collapse)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
 
 
         self.verticalLayout_3.addLayout(self.horizontalLayout)
 
         self.header_tree = QTreeWidget(self.verticalLayoutWidget)
         __qtreewidgetitem = QTreeWidgetItem()
+        __qtreewidgetitem.setText(1, u"2");
         __qtreewidgetitem.setText(0, u"1");
         self.header_tree.setHeaderItem(__qtreewidgetitem)
         self.header_tree.setObjectName(u"header_tree")
+        self.header_tree.setColumnCount(2)
+        self.header_tree.header().setDefaultSectionSize(200)
 
         self.verticalLayout_3.addWidget(self.header_tree)
 
@@ -135,8 +140,10 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.dataset_list.currentRowChanged.connect(MainWindow.dataset_selected)
         self.header_tree.itemClicked.connect(MainWindow.show_dataset_item)
+        self.button_expand.pressed.connect(self.header_tree.expandAll)
+        self.button_collapse.pressed.connect(self.header_tree.collapseAll)
 
-        self.tabWidget.setCurrentIndex(1)
+        self.tabWidget.setCurrentIndex(0)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -146,8 +153,8 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"MainWindow", None))
         self.actionOpen.setText(QCoreApplication.translate("MainWindow", u"Open...", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.plot_tab), QCoreApplication.translate("MainWindow", u"Data", None))
-        self.toolButton.setText(QCoreApplication.translate("MainWindow", u"...", None))
-        self.toolButton_2.setText(QCoreApplication.translate("MainWindow", u"...", None))
+        self.button_expand.setText(QCoreApplication.translate("MainWindow", u"...", None))
+        self.button_collapse.setText(QCoreApplication.translate("MainWindow", u"...", None))
         self.header_data.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
