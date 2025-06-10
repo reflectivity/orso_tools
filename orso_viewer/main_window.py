@@ -68,6 +68,11 @@ class MainWindow(QMainWindow):
         self.ui.header_tree.setColumnCount(2)
         self.ui.header_tree.setHeaderLabels(["Key", "Type"])
 
+        doc = self.ui.header_data.document()
+        font = doc.defaultFont()
+        font.setFamily("Courier New")
+        doc.setDefaultFont(font)
+
     def read_file(self, filename):
         self.datasets = fileio.load_orso(filename)
 
@@ -110,6 +115,27 @@ class MainWindow(QMainWindow):
         sc.axes.legend()
         sc.draw()
 
+    def build_subtree(self, parent, data, obj):
+        for key, value in data.items():
+            if isinstance(obj, list):
+                subobj = obj[key]
+                key = str(key)
+            else:
+                subobj = getattr(obj, key, None)
+            if isinstance(subobj, fileio.Header):
+                subitem = QTreeWidgetItem([key, subobj.__class__.__name__])
+                subitem.setData(0, Qt.ItemDataRole.UserRole, subobj.to_yaml())
+                parent.addChild(subitem)
+                self.build_subtree(subitem, value, subobj)
+            elif isinstance(subobj, list):
+                subitem = QTreeWidgetItem([key, "List"])
+                subitem.setData(0, Qt.ItemDataRole.UserRole, str(subobj))
+                parent.addChild(subitem)
+                self.build_subtree(subitem, dict(enumerate(value)), subobj)
+            else:
+                subitem = QTreeWidgetItem([key, str(subobj)])
+                parent.addChild(subitem)
+
     def update_header(self, index):
         tv = self.ui.header_tree
         dataset: fileio.OrsoDataset = self.datasets[index]
@@ -117,11 +143,23 @@ class MainWindow(QMainWindow):
         items = []
         for key, value in data.items():
             obj = getattr(dataset.info, key)
-            item = QTreeWidgetItem([key, obj.__class__.__name__])
-            item.setData(0, Qt.ItemDataRole.UserRole, obj)
-            # ext = str(value)
-            # child = QTreeWidgetItem([value, ext])
-            # item.addChild(child)
+            if isinstance(obj, fileio.Header):
+                item = QTreeWidgetItem([key, obj.__class__.__name__])
+                item.setData(0, Qt.ItemDataRole.UserRole, obj.to_yaml())
+                self.build_subtree(item, value, obj)
+            elif isinstance(obj, list):
+                item = QTreeWidgetItem([key, "List"])
+                item.setData(0, Qt.ItemDataRole.UserRole, str(obj))
+                self.build_subtree(item, dict(enumerate(value)), obj)
+            else:
+                item = QTreeWidgetItem([key, str(obj)])
             items.append(item)
 
         tv.insertTopLevelItems(0, items)
+
+    def show_dataset_item(self, item:QTreeWidgetItem, idx):
+        data = item.data(0, Qt.ItemDataRole.UserRole)
+        if data is None:
+            self.ui.header_data.setText(item.text(1))
+        else:
+            self.ui.header_data.setText(data)
