@@ -12,11 +12,12 @@ except ImportError:
 
 
 class WorkerSignals(QObject):
+    resolved = Signal()
     finished = Signal()
 
 
 class SimulationWorker(QRunnable):
-    """Thread to analyze a sample model in the background."""
+    """Thread to analyze a sample model in the background, can take a while to find e.g. materials."""
 
     def __init__(self, sample_model: model_language.SampleModel, x, xray_energy=None):
         super(SimulationWorker, self).__init__()
@@ -28,14 +29,17 @@ class SimulationWorker(QRunnable):
 
     @Slot()
     def run(self):
-        """Your long-running job goes in this method."""
-        print("Thread start")
         # make a local copy not to modify the header information
         sample_model = model_language.SampleModel.from_dict(self.sample_model.to_dict())
 
-        from refnx.reflect import SLD, ReflectModel, Structure
-
         layers = sample_model.resolve_to_layers()
+        self.signals.resolved.emit()
+
+        if refnx is None:
+            # refnx is not available, only resolve model
+            return
+
+        from refnx.reflect import SLD, ReflectModel, Structure
 
         if self.xray_energy is not None:
             structure = Structure()
@@ -97,22 +101,28 @@ class MainWindow(QMainWindow):
         sc.axes.set_yscale("log")
         sc.axes.set_xlabel(dataset.info.columns[0].name + " / " + (dataset.info.columns[0].unit or ""))
         sc.axes.set_ylabel(dataset.info.columns[1].name + " / " + (dataset.info.columns[1].unit or "1"))
+        sc.fig.draw_idle()
 
         try:
             sample_model = dataset.info.data_source.sample.model
         except AttributeError:
-            pass
+            self.ui.sample_viewer.no_sample()
         else:
-            if refnx is not None:
-                self.worker = SimulationWorker(sample_model, dataset.data[:, 0])
-                self.worker.signals.finished.connect(self.plot_simulation)
-                self.threadpool.start(self.worker)
+            self.ui.sample_viewer.preparing_sample()
+            self.worker = SimulationWorker(sample_model, dataset.data[:, 0])
+            self.worker.signals.resolved.connect(self.show_sample)
+            self.worker.signals.finished.connect(self.plot_simulation)
+            self.threadpool.start(self.worker)
+
+    @Slot()
+    def show_sample(self):
+        # the worker already resolved all layers of the model
+        self.ui.sample_viewer.show_sample_model(self.worker.sample_model)
 
     @Slot()
     def plot_simulation(self):
-        worker = self.worker
-        x = worker.x
-        ysim = worker.ysim
+        x = self.worker.x
+        ysim = self.worker.ysim
         sc = self.ui.data_plot
         sc.axes.semilogy(x, ysim, label="model")
         sc.axes.legend()
@@ -158,9 +168,10 @@ class MainWindow(QMainWindow):
                 item = QTreeWidgetItem([key, str(obj)])
             items.append(item)
 
+        tv.clear()
         tv.insertTopLevelItems(0, items)
 
-    def show_dataset_item(self, item:QTreeWidgetItem, idx):
+    def show_dataset_item(self, item: QTreeWidgetItem, idx):
         data = item.data(0, Qt.ItemDataRole.UserRole)
         if data is None:
             self.ui.header_data.setText(item.text(1))

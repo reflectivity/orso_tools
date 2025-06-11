@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>941</width>
-    <height>625</height>
+    <width>1038</width>
+    <height>728</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -145,6 +145,11 @@ p, li { white-space: pre-wrap; }
         <attribute name="title">
          <string>Sample</string>
         </attribute>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="SampleViewer" name="sample_viewer" native="true"/>
+         </item>
+        </layout>
        </widget>
       </widget>
      </widget>
@@ -156,7 +161,7 @@ p, li { white-space: pre-wrap; }
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>941</width>
+     <width>1038</width>
      <height>26</height>
     </rect>
    </property>
@@ -180,6 +185,12 @@ p, li { white-space: pre-wrap; }
    <class>MplCanvas</class>
    <extends>QWidget</extends>
    <header location="global">.mpl_canvas.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SampleViewer</class>
+   <extends>QWidget</extends>
+   <header location="global">.sample_viewer.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

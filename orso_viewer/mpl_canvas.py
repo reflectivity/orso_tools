@@ -1,10 +1,12 @@
 import os
-from PySide6.QtWidgets import QWidget, QVBoxLayout
+
+from PySide6.QtWidgets import QVBoxLayout, QWidget
+
 os.environ["QT_API"] = "PySide6"
 
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas  # noqa: E402
+from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar  # noqa: E402
 from matplotlib.figure import Figure  # noqa: E402
-from matplotlib.backends.backend_qtagg import NavigationToolbar2QT as NavigationToolbar
 
 
 class MplCanvas(QWidget):
