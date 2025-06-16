@@ -19,5 +19,6 @@ class MplCanvas(QWidget):
         layout.addWidget(self.fig)
         navbar = NavigationToolbar(self.fig, self)
         layout.addWidget(navbar)
+        self.fig.figure.set_tight_layout(True)
 
         self.axes = self.fig.figure.add_subplot(111)

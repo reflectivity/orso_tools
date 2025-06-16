@@ -8,16 +8,14 @@
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
 
-from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale, QMetaObject, QObject, QPoint, QRect, QSize, Qt,
-                            QTime, QUrl)
-from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase, QGradient, QIcon,
-                           QImage, QKeySequence, QLinearGradient, QPainter, QPalette, QPixmap, QRadialGradient,
-                           QTransform)
-from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QListWidget, QListWidgetItem, QMainWindow, QMenu,
-                               QMenuBar, QSizePolicy, QSpacerItem, QSplitter, QStatusBar, QTabWidget, QTextBrowser,
-                               QToolButton, QTreeWidget, QTreeWidgetItem, QVBoxLayout, QWidget)
+from PySide6.QtCore import QCoreApplication, QMetaObject, QRect, QSize, Qt
+from PySide6.QtGui import QAction
+from PySide6.QtWidgets import (QHBoxLayout, QListWidget, QMenu, QMenuBar, QSizePolicy, QSpacerItem, QSplitter,
+                               QStatusBar, QTabWidget, QTextBrowser, QToolButton, QTreeWidget, QTreeWidgetItem,
+                               QVBoxLayout, QWidget)
 
-from .mpl_canvas import MplCanvas
+from orso_tools.mpl_canvas import MplCanvas
+
 from .sample_viewer import SampleViewer
 
 
