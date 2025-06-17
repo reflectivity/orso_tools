@@ -190,7 +190,7 @@ p, li { white-space: pre-wrap; }
   <customwidget>
    <class>SampleViewer</class>
    <extends>QWidget</extends>
-   <header location="global">.sample_viewer.h</header>
+   <header location="global">orso_tools.sample_viewer.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

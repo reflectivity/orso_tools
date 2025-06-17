@@ -41,6 +41,120 @@
             </widget>
            </item>
            <item>
+            <widget class="QFrame" name="editor_toolbar">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Sunken</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <property name="spacing">
+               <number>2</number>
+              </property>
+              <property name="leftMargin">
+               <number>2</number>
+              </property>
+              <property name="topMargin">
+               <number>2</number>
+              </property>
+              <property name="rightMargin">
+               <number>2</number>
+              </property>
+              <property name="bottomMargin">
+               <number>2</number>
+              </property>
+              <item>
+               <widget class="QToolButton" name="button_layer">
+                <property name="text">
+                 <string>Layer</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="button_material">
+                <property name="text">
+                 <string>Material</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="button_composit">
+                <property name="text">
+                 <string>Composit</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeType">
+                 <enum>QSizePolicy::Fixed</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>10</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QToolButton" name="button_substack">
+                <property name="text">
+                 <string>SubStack</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QComboBox" name="complex_selector">
+                <item>
+                 <property name="text">
+                  <string>Complex Item...</string>
+                 </property>
+                </item>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="toolButton">
+                <property name="text">
+                 <string>ModelParameters</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QToolButton" name="button_value">
+                <property name="text">
+                 <string>Value</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="button_complexvalue">
+                <property name="text">
+                 <string>ComplexValue</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
             <widget class="ModelEditor" name="model_editor">
              <property name="acceptRichText">
               <bool>false</bool>
@@ -58,7 +172,7 @@
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
-            <widget class="QGraphicsView" name="model_builder"/>
+            <widget class="SampleViewer" name="model_viewer" native="true"/>
            </item>
           </layout>
          </widget>
@@ -124,6 +238,12 @@
    <extends>QTextEdit</extends>
    <header location="global">.model_editor.h</header>
   </customwidget>
+  <customwidget>
+   <class>SampleViewer</class>
+   <extends>QWidget</extends>
+   <header location="global">orso_tools.sample_viewer.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <resources/>
  <connections>
@@ -146,5 +266,6 @@
  </connections>
  <slots>
   <slot>update_model()</slot>
+  <slot>insert_class()</slot>
  </slots>
 </ui>

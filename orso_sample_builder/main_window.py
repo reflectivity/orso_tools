@@ -1,9 +1,11 @@
+from traceback import format_exc
+
 import yaml
 
 from numpy import linspace
 from orsopy.fileio import model_language as ml
 from PySide6.QtCore import QObject, QRunnable, QThreadPool, Signal, Slot
-from PySide6.QtWidgets import QGraphicsScene, QMainWindow
+from PySide6.QtWidgets import QErrorMessage, QMainWindow, QToolButton
 
 from orso_sample_builder.ui_main_window import Ui_MainWindow
 
@@ -19,6 +21,7 @@ except ImportError:
 class WorkerSignals(QObject):
     resolved = Signal()
     finished = Signal()
+    exception = Signal(str)
 
 
 class SimulationWorker(QRunnable):
@@ -39,7 +42,11 @@ class SimulationWorker(QRunnable):
         # make a local copy not to modify the header information
         sample_model = ml.SampleModel.from_dict(self.sample_model.to_dict())
 
-        layers = sample_model.resolve_to_layers()
+        try:
+            layers = sample_model.resolve_to_layers()
+        except Exception as e:
+            self.show_message(f"Could not resolve model to layers:\n{format_exc()}")
+            return
         self.signals.resolved.emit()
 
         if refnx is None:
@@ -51,13 +58,21 @@ class SimulationWorker(QRunnable):
         if self.xray_energy is not None:
             structure = Structure()
             for lj in layers:
-                m = SLD(lj.material.get_sld() * 1e6)
+                try:
+                    m = SLD(lj.material.get_sld() * 1e6)
+                except Exception as e:
+                    self.show_message(f"Could not resolve material for layer {lj}:\n{e}")
+                    return
                 structure |= m(lj.thickness.as_unit("angstrom"), lj.roughness.as_unit("angstrom"))
             model = ReflectModel(structure, bkg=0.0)
         else:
             structure = Structure()
             for lj in layers:
-                m = SLD(lj.material.get_sld(xray_energy=self.xray_energy) * 1e6)
+                try:
+                    m = SLD(lj.material.get_sld(xray_energy=self.xray_energy) * 1e6)
+                except Exception as e:
+                    self.show_message(f"Could not resolve material for layer {lj}:\n{e}")
+                    return
                 structure |= m(lj.thickness.as_unit("angstrom"), lj.roughness.as_unit("angstrom"))
             model = ReflectModel(structure, bkg=0.0)
 
@@ -65,6 +80,9 @@ class SimulationWorker(QRunnable):
         self.z, self.SLDsim = structure.sld_profile()
 
         self.signals.finished.emit()
+
+    def show_message(self, message):
+        self.signals.exception.emit(message)
 
 
 class MainWindow(QMainWindow):
@@ -77,14 +95,32 @@ class MainWindow(QMainWindow):
         self.threadpool = QThreadPool()
 
         self.init_editor()
-        self.update_model()
 
     def init_editor(self):
         doc = self.ui.model_editor.document()
         font = doc.defaultFont()
         font.setFamily("Courier New")
         doc.setDefaultFont(font)
-        doc.setPlainText(DEFAULT_MODEL)
+        for chld in self.ui.editor_toolbar.children():
+            if isinstance(chld, QToolButton):
+                chld.pressed.connect(self.insert_class)
+        from orsopy.fileio import model_language as ml
+
+        for subcls in ml.SubStackType.__subclasses__():
+            if subcls is ml.SubStack:
+                continue
+            self.ui.complex_selector.addItem(subcls.__name__)
+        self.ui.complex_selector.currentIndexChanged.connect(self.insert_complex)
+
+        # doc.setPlainText(DEFAULT_MODEL)
+        doc.setPlainText("")
+        self.current_model = ml.SampleModel(stack="vacuum | Fe 100 | Si")
+        self.ui.model_editor.insert_class("SampleModel", **self.current_model.to_dict())
+
+    def show_error(self, message):
+        dia = QErrorMessage()
+        dia.showMessage("<pre>" + message + "</pre")
+        dia.exec()
 
     def update_model(self):
         """
@@ -104,10 +140,11 @@ class MainWindow(QMainWindow):
             self.ui.model_editor.setPlainText(self.current_model.to_yaml())
 
         self._worker = SimulationWorker(self.current_model)
+        self._worker.signals.resolved.connect(self.show_model)
         self._worker.signals.finished.connect(self.plot_model)
+        self._worker.signals.exception.connect(self.show_error)
         self.threadpool.start(self._worker)
-
-        self.update_builder()
+        self.ui.model_viewer.preparing_sample()
 
     def plot_model(self):
         self.ui.graph_refl.axes.clear()
@@ -121,33 +158,14 @@ class MainWindow(QMainWindow):
         self.ui.graph_sld.axes.set_ylabel("z-depth / Å")
         self.ui.graph_sld.fig.draw_idle()
 
-    def update_builder(self):
-        scene = QGraphicsScene(0, 0, 200, 400)
+    def show_model(self):
+        self.ui.model_viewer.show_sample_model(self._worker.sample_model)
 
-        # rect = QGraphicsRectItem(0, 0, 100, 50)
-        #
-        # rect.setPos(50, 20)
-        #
-        # brush = QBrush(Qt.red)
-        # rect.setBrush(brush)
-        #
-        # pen = QPen(Qt.cyan)
-        # pen.setWidth(10)
-        # rect.setPen(pen)
-        #
-        # ellipse = QGraphicsEllipseItem(0, 0, 100, 100)
-        # ellipse.setPos(75, 30)
-        #
-        # brush = QBrush(Qt.blue)
-        # ellipse.setBrush(brush)
-        #
-        # pen = QPen(Qt.green)
-        # pen.setWidth(5)
-        # ellipse.setPen(pen)
-        #
-        # scene.addItem(ellipse)
-        # scene.addItem(rect)
-        #
-        # ellipse.setFlag(QGraphicsItem.ItemIsMovable)
+    def insert_class(self):
+        self.ui.model_editor.insert_class(self.sender().text())
 
-        self.ui.model_builder.setScene(scene)
+    def insert_complex(self, idx):
+        if idx == 0:
+            return
+        self.ui.complex_selector.setCurrentIndex(0)
+        self.ui.model_editor.insert_class(self.ui.complex_selector.itemText(idx))
