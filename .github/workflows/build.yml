@@ -1,7 +1,7 @@
 name: Build PyInstaller Package
 permissions:
   id-token: write
-
+  contents: write
 on:
   push:
     tags:
