@@ -93,7 +93,9 @@ class ModelEditor(QTextEdit):
         try:
             from orsopy.fileio import model_complex as mc
         except ImportError:
+            # create dummy object
             mc = object()
+            mc.__dict__ = {}
         from orsopy.fileio import model_language as ml
 
         namespace = {**ml.__dict__, **mc.__dict__}
