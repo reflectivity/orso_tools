@@ -102,6 +102,7 @@ class MainWindow(QMainWindow):
         self.threadpool = QThreadPool()
 
         self.init_editor()
+        self.activateWindow()
 
     def init_editor(self):
         doc = self.ui.model_editor.document()
