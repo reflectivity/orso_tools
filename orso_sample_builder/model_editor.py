@@ -90,13 +90,12 @@ class ModelEditor(QTextEdit):
             return QTextEdit.keyPressEvent(self, event)
 
     def insert_class(self, cls_name, **initial_values):
+        from orsopy.fileio import model_language as ml
+
         try:
             from orsopy.fileio import model_complex as mc
         except ImportError:
-            # create dummy object
-            mc = object()
-            mc.__dict__ = {}
-        from orsopy.fileio import model_language as ml
+            mc = ml
 
         namespace = {**ml.__dict__, **mc.__dict__}
 
