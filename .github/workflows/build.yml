@@ -106,15 +106,6 @@ jobs:
     - uses: actions/download-artifact@v4
       with:
         name: pip
-    - name: Set version
-      run: |
-        if ("${{ github.ref_type }}" -eq "tag") {
-          $VERSION = "${{ github.ref_name }}" -replace '^v',''
-        } else {
-          $VERSION = "${{ github.event.inputs.version }}"
-        }
-        echo "VERSION=$VERSION" >> $env:GITHUB_ENV
-        echo "Releasing version: $VERSION"
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "*.zip,*.tar.gz"

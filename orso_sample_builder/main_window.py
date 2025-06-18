@@ -114,11 +114,16 @@ class MainWindow(QMainWindow):
                 chld.pressed.connect(self.insert_class)
         from orsopy.fileio import model_language as ml
 
-        for subcls in ml.SubStackType.__subclasses__():
-            if subcls is ml.SubStack:
-                continue
-            self.ui.complex_selector.addItem(subcls.__name__)
-        self.ui.complex_selector.currentIndexChanged.connect(self.insert_complex)
+        try:
+            for subcls in ml.SubStackType.__subclasses__():
+                if subcls is ml.SubStack:
+                    continue
+                self.ui.complex_selector.addItem(subcls.__name__)
+        except AttributeError:
+            # feature not yet part of official orsopy release
+            self.ui.complex_selector.hide()
+        else:
+            self.ui.complex_selector.currentIndexChanged.connect(self.insert_complex)
 
         # doc.setPlainText(DEFAULT_MODEL)
         doc.setPlainText("")
