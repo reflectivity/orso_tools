@@ -1,0 +1,23 @@
+sample:
+    model:
+        origin: refnx example leaflet parameters
+        stack: Si  | ( LL | rLL ) in D2O | 2 ( LL | rLL ) |  water
+        sub_stacks:
+            LL:
+                sub_stack_class: LipidLeaflet
+                apm: 56.0
+                b_heads: 6.01e-4
+                vm_heads: 319.0
+                b_tails: -2.92e-4
+                vm_tails: 782.0
+                thickness_heads: 9.0
+                thickness: 23.0
+            rLL:
+                like: LL
+                but:
+                    reverse_monolayer: true
+
+        globals:
+            length_unit: angstrom
+            roughness: {magnitude: 3.0, unit: angstrom}
+            default_solvent: {formula: 'H2O', mass_density: {magnitude: 1.0, unit: g/cm^3}}
