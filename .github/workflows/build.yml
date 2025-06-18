@@ -47,7 +47,7 @@ jobs:
 
     - name: Build with PyInstaller
       run: |
-        pyinstaller obs.spec
+        pyinstaller osb.spec
 
     - name: Create Release Asset
       run: |
