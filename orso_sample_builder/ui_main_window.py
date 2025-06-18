@@ -13,8 +13,9 @@ from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale, QMetaOb
 from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase, QGradient, QIcon,
                            QImage, QKeySequence, QLinearGradient, QPainter, QPalette, QPixmap, QRadialGradient,
                            QTransform)
-from PySide6.QtWidgets import (QApplication, QComboBox, QDockWidget, QFrame, QHBoxLayout, QLabel, QMainWindow,
-                               QPushButton, QSizePolicy, QSpacerItem, QSplitter, QToolButton, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QComboBox, QDockWidget, QDoubleSpinBox, QFrame, QGridLayout, QHBoxLayout,
+                               QLabel, QMainWindow, QPushButton, QRadioButton, QSizePolicy, QSpacerItem, QSplitter,
+                               QToolButton, QVBoxLayout, QWidget)
 
 from orso_tools.mpl_canvas import MplCanvas
 from orso_tools.sample_viewer import SampleViewer
@@ -44,14 +45,87 @@ class Ui_MainWindow(object):
         self.widget_2.setObjectName("widget_2")
         self.verticalLayout = QVBoxLayout(self.widget_2)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.label = QLabel(self.widget_2)
+        self.widget_3 = QWidget(self.widget_2)
+        self.widget_3.setObjectName("widget_3")
+        self.horizontalLayout_2 = QHBoxLayout(self.widget_3)
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.label = QLabel(self.widget_3)
         self.label.setObjectName("label")
         font = QFont()
         font.setFamilies(["Courier New"])
         font.setPointSize(10)
         self.label.setFont(font)
 
-        self.verticalLayout.addWidget(self.label)
+        self.horizontalLayout_2.addWidget(self.label)
+
+        self.widget_5 = QWidget(self.widget_3)
+        self.widget_5.setObjectName("widget_5")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.widget_5.sizePolicy().hasHeightForWidth())
+        self.widget_5.setSizePolicy(sizePolicy)
+        self.widget_5.setMinimumSize(QSize(170, 0))
+        self.gridLayout = QGridLayout(self.widget_5)
+        self.gridLayout.setObjectName("gridLayout")
+        self.label_2 = QLabel(self.widget_5)
+        self.label_2.setObjectName("label_2")
+
+        self.gridLayout.addWidget(self.label_2, 0, 0, 1, 1)
+
+        self.radiation_neutron = QRadioButton(self.widget_5)
+        self.radiation_neutron.setObjectName("radiation_neutron")
+        self.radiation_neutron.setChecked(True)
+
+        self.gridLayout.addWidget(self.radiation_neutron, 1, 0, 1, 1)
+
+        self.radiation_xray = QRadioButton(self.widget_5)
+        self.radiation_xray.setObjectName("radiation_xray")
+
+        self.gridLayout.addWidget(self.radiation_xray, 2, 0, 1, 1)
+
+        self.radiation_energy = QDoubleSpinBox(self.widget_5)
+        self.radiation_energy.setObjectName("radiation_energy")
+        self.radiation_energy.setDecimals(2)
+        self.radiation_energy.setMaximum(99999.000000000000000)
+        self.radiation_energy.setSingleStep(100.000000000000000)
+        self.radiation_energy.setValue(8040.000000000000000)
+
+        self.gridLayout.addWidget(self.radiation_energy, 2, 1, 1, 1)
+
+        self.label_3 = QLabel(self.widget_5)
+        self.label_3.setObjectName("label_3")
+
+        self.gridLayout.addWidget(self.label_3, 2, 2, 1, 1)
+
+        self.horizontalLayout_2.addWidget(self.widget_5)
+
+        self.widget_4 = QWidget(self.widget_3)
+        self.widget_4.setObjectName("widget_4")
+        sizePolicy.setHeightForWidth(self.widget_4.sizePolicy().hasHeightForWidth())
+        self.widget_4.setSizePolicy(sizePolicy)
+        self.verticalLayout_7 = QVBoxLayout(self.widget_4)
+        self.verticalLayout_7.setSpacing(0)
+        self.verticalLayout_7.setObjectName("verticalLayout_7")
+        self.verticalLayout_7.setContentsMargins(0, 0, 0, 0)
+        self.pushButton = QPushButton(self.widget_4)
+        self.pushButton.setObjectName("pushButton")
+
+        self.verticalLayout_7.addWidget(self.pushButton)
+
+        self.pushButton_2 = QPushButton(self.widget_4)
+        self.pushButton_2.setObjectName("pushButton_2")
+
+        self.verticalLayout_7.addWidget(self.pushButton_2)
+
+        self.pushButton_3 = QPushButton(self.widget_4)
+        self.pushButton_3.setObjectName("pushButton_3")
+
+        self.verticalLayout_7.addWidget(self.pushButton_3)
+
+        self.horizontalLayout_2.addWidget(self.widget_4)
+
+        self.verticalLayout.addWidget(self.widget_3)
 
         self.editor_toolbar = QFrame(self.widget_2)
         self.editor_toolbar.setObjectName("editor_toolbar")
@@ -171,6 +245,9 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
         self.update_button.pressed.connect(MainWindow.update_model)
+        self.pushButton.pressed.connect(MainWindow.load_model)
+        self.pushButton_2.pressed.connect(MainWindow.save_model)
+        self.pushButton_3.pressed.connect(MainWindow.model_help)
 
         QMetaObject.connectSlotsByName(MainWindow)
 
@@ -182,6 +259,13 @@ class Ui_MainWindow(object):
         self.label.setText(
             QCoreApplication.translate("MainWindow", "data_source:\n" "   sample:\n" "     model:", None)
         )
+        self.label_2.setText(QCoreApplication.translate("MainWindow", "Radiation:", None))
+        self.radiation_neutron.setText(QCoreApplication.translate("MainWindow", "Neutron", None))
+        self.radiation_xray.setText(QCoreApplication.translate("MainWindow", "X-Ray", None))
+        self.label_3.setText(QCoreApplication.translate("MainWindow", "eV", None))
+        self.pushButton.setText(QCoreApplication.translate("MainWindow", "Load Model...", None))
+        self.pushButton_2.setText(QCoreApplication.translate("MainWindow", "Save Model...", None))
+        self.pushButton_3.setText(QCoreApplication.translate("MainWindow", "Model Help...", None))
         self.button_layer.setText(QCoreApplication.translate("MainWindow", "Layer", None))
         self.button_material.setText(QCoreApplication.translate("MainWindow", "Material", None))
         self.button_composit.setText(QCoreApplication.translate("MainWindow", "Composit", None))
