@@ -54,13 +54,13 @@ jobs:
     - name: Create Release Asset
       run: |
         cd dist
-        7z a -r -tzip "osb_win64_v${{ env.VERSION }}.zip" osb
+        7z a -r -tzip "osb_win64_${{ env.VERSION }}.zip" osb
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: windows
-        path: dist/osb_win64_v${{ env.VERSION }}.zip
+        path: dist/osb_win64_${{ env.VERSION }}.zip
 
   publish-pypi:
     runs-on: ubuntu-latest
