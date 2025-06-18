@@ -1,7 +1,7 @@
 from dataclasses import fields
 
 from PySide6.QtCore import QRegularExpression, Qt
-from PySide6.QtGui import QFont, QSyntaxHighlighter, QTextCharFormat, QTextCursor
+from PySide6.QtGui import QColor, QFont, QSyntaxHighlighter, QTextCharFormat, QTextCursor
 from PySide6.QtWidgets import QTextEdit
 
 
@@ -21,6 +21,8 @@ class OrsoSampleHighlighter(QSyntaxHighlighter):
         self.stack_format.setForeground(Qt.GlobalColor.black)
         self.comment_format = QTextCharFormat()
         self.comment_format.setForeground(Qt.GlobalColor.gray)
+        self.inline_dict_format = QTextCharFormat()
+        self.inline_dict_format.setBackground(QColor(240, 240, 255))
 
     def highlightBlock(self, text):
         expression = QRegularExpression("\\b[a-zA-Z_0-9]*:")
@@ -44,6 +46,12 @@ class OrsoSampleHighlighter(QSyntaxHighlighter):
         while i.hasNext():
             match = i.next()
             self.setFormat(match.capturedStart(), match.capturedLength(), self.comment_format)
+
+        expression = QRegularExpression("\\{.*\\}")
+        i = expression.globalMatch(text)
+        while i.hasNext():
+            match = i.next()
+            self.setFormat(match.capturedStart(), match.capturedLength(), self.inline_dict_format)
 
 
 class ModelEditor(QTextEdit):

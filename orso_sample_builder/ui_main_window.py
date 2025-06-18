@@ -67,7 +67,9 @@ class Ui_MainWindow(object):
         self.widget_5.setSizePolicy(sizePolicy)
         self.widget_5.setMinimumSize(QSize(170, 0))
         self.gridLayout = QGridLayout(self.widget_5)
+        self.gridLayout.setSpacing(4)
         self.gridLayout.setObjectName("gridLayout")
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.label_2 = QLabel(self.widget_5)
         self.label_2.setObjectName("label_2")
 
@@ -164,6 +166,10 @@ class Ui_MainWindow(object):
         self.complex_selector.setObjectName("complex_selector")
 
         self.horizontalLayout.addWidget(self.complex_selector)
+
+        self.horizontalSpacer_3 = QSpacerItem(10, 20, QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_3)
 
         self.toolButton = QToolButton(self.editor_toolbar)
         self.toolButton.setObjectName("toolButton")
