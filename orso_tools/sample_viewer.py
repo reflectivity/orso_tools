@@ -58,7 +58,7 @@ class SampleViewer(QtSvgWidgets.QSvgWidget):
                 post_str = ""
                 if item.repetitions != 1:
                     pre_str = f"{item.repetitions} X "
-                if item.environment is not None:
+                if getattr(item, "environment", None) is not None:
                     post_str = f" in {item.environment.original_name or repr(item.environment)}"
 
                 svg_inside += f"""
