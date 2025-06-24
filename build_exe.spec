@@ -1,7 +1,7 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 
-a = Analysis(
+a1 = Analysis(
     ["osb.py"],
     pathex=[],
     binaries=[],
@@ -14,11 +14,11 @@ a = Analysis(
     noarchive=False,
     optimize=0,
 )
-pyz = PYZ(a.pure)
-splash = Splash(
+pyz1 = PYZ(a1.pure)
+splash1 = Splash(
     "splash.png",
-    binaries=a.binaries,
-    datas=a.datas,
+    binaries=a1.binaries,
+    datas=a1.datas,
     text_pos=(18, 460),
     text_size=12,
     text_color="black",
@@ -28,10 +28,10 @@ splash = Splash(
 )
 
 
-exe = EXE(
-    pyz,
-    a.scripts,
-    splash,
+exe1 = EXE(
+    pyz1,
+    a1.scripts,
+    splash1,
     [],
     exclude_binaries=True,
     name="osb",
@@ -46,18 +46,8 @@ exe = EXE(
     codesign_identity=None,
     entitlements_file=None,
 )
-coll = COLLECT(
-    exe,
-    a.binaries,
-    a.datas,
-    splash.binaries,
-    strip=False,
-    upx=True,
-    upx_exclude=[],
-    name="osb",
-)
 
-a = Analysis(
+a2 = Analysis(
     ["orso_viewer.py"],
     pathex=[],
     binaries=[],
@@ -70,11 +60,11 @@ a = Analysis(
     noarchive=False,
     optimize=0,
 )
-pyz = PYZ(a.pure)
-splash = Splash(
+pyz2 = PYZ(a2.pure)
+splash2 = Splash(
     "splash.png",
-    binaries=a.binaries,
-    datas=a.datas,
+    binaries=a2.binaries,
+    datas=a2.datas,
     text_pos=(18, 460),
     text_size=12,
     text_color="black",
@@ -84,10 +74,10 @@ splash = Splash(
 )
 
 
-exe = EXE(
-    pyz,
-    a.scripts,
-    splash,
+exe2 = EXE(
+    pyz2,
+    a2.scripts,
+    splash2,
     [],
     exclude_binaries=True,
     name="orso_viewer",
@@ -103,12 +93,16 @@ exe = EXE(
     entitlements_file=None,
 )
 coll = COLLECT(
-    exe,
-    a.binaries,
-    a.datas,
-    splash.binaries,
+    exe1,
+    a1.binaries,
+    a1.datas,
+    splash1.binaries,
+    exe2,
+    a2.binaries,
+    a2.datas,
+    splash2.binaries,
     strip=False,
     upx=True,
     upx_exclude=[],
-    name="orso_viewer",
+    name="orso_tools",
 )

@@ -50,14 +50,15 @@ jobs:
 
     - name: Create Release Asset
       run: |
+        cp -r examples dist/orso_tools/
         cd dist
-        7z a -r -tzip "osb_win64_${{ env.VERSION }}.zip" osb
+        7z a -r -tzip "orso_tools_win64_${{ env.VERSION }}.zip" orso_tools
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: windows
-        path: dist/osb_win64_${{ env.VERSION }}.zip
+        path: dist/orso_tools_win64_${{ env.VERSION }}.zip
 
   publish-pypi:
     runs-on: ubuntu-latest
