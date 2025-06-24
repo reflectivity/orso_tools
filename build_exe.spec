@@ -56,3 +56,59 @@ coll = COLLECT(
     upx_exclude=[],
     name="osb",
 )
+
+a = Analysis(
+    ["orso_viewer.py"],
+    pathex=[],
+    binaries=[],
+    datas=[],
+    hiddenimports=["refnx", "pint", "scipy.special", "scipy.sparse"],
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=[],
+    noarchive=False,
+    optimize=0,
+)
+pyz = PYZ(a.pure)
+splash = Splash(
+    "splash.png",
+    binaries=a.binaries,
+    datas=a.datas,
+    text_pos=(18, 460),
+    text_size=12,
+    text_color="black",
+    minify_script=True,
+    always_on_top=True,
+    text_default="Loading ORSO Viewer...",
+)
+
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    splash,
+    [],
+    exclude_binaries=True,
+    name="orso_viewer",
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    console=False,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+)
+coll = COLLECT(
+    exe,
+    a.binaries,
+    a.datas,
+    splash.binaries,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    name="orso_viewer",
+)

@@ -46,7 +46,7 @@ jobs:
 
     - name: Build with PyInstaller
       run: |
-        pyinstaller osb.spec
+        pyinstaller build_exe.spec
 
     - name: Create Release Asset
       run: |
