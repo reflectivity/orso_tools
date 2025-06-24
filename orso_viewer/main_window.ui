@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>ORSO File Viewer</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -219,8 +219,8 @@ p, li { white-space: pre-wrap; }
    <slot>show_dataset_item(QTreeWidgetItem*,int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>295</x>
-     <y>182</y>
+     <x>244</x>
+     <y>90</y>
     </hint>
     <hint type="destinationlabel">
      <x>382</x>
@@ -239,8 +239,8 @@ p, li { white-space: pre-wrap; }
      <y>84</y>
     </hint>
     <hint type="destinationlabel">
-     <x>207</x>
-     <y>214</y>
+     <x>244</x>
+     <y>90</y>
     </hint>
    </hints>
   </connection>
@@ -255,8 +255,24 @@ p, li { white-space: pre-wrap; }
      <y>80</y>
     </hint>
     <hint type="destinationlabel">
-     <x>266</x>
-     <y>175</y>
+     <x>244</x>
+     <y>90</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionOpen</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>open_file()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>518</x>
+     <y>363</y>
     </hint>
    </hints>
   </connection>
@@ -264,5 +280,6 @@ p, li { white-space: pre-wrap; }
  <slots>
   <slot>dataset_selected(int)</slot>
   <slot>show_dataset_item(QTreeWidgetItem*,int)</slot>
+  <slot>open_file()</slot>
  </slots>
 </ui>

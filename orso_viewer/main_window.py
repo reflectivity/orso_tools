@@ -1,7 +1,7 @@
 from orsopy import fileio
 from orsopy.fileio import model_language
 from PySide6.QtCore import QObject, QRunnable, Qt, QThreadPool, Signal, Slot
-from PySide6.QtWidgets import QMainWindow, QStyle, QTreeWidgetItem
+from PySide6.QtWidgets import QFileDialog, QMainWindow, QStyle, QTreeWidgetItem
 
 from orso_viewer.ui_main_window import Ui_MainWindow
 
@@ -79,6 +79,12 @@ class MainWindow(QMainWindow):
 
         self.ui.button_expand.setIcon(self.style().standardIcon(QStyle.SP_TitleBarUnshadeButton))
         self.ui.button_collapse.setIcon(self.style().standardIcon(QStyle.SP_MediaPlay))
+
+    @Slot()
+    def open_file(self):
+        filename, res = QFileDialog.getOpenFileName(self, caption="Open ORSO File", filter="ORSO Text (*.ort)")
+        if res:
+            self.read_file(filename)
 
     def read_file(self, filename):
         self.datasets = fileio.load_orso(filename)

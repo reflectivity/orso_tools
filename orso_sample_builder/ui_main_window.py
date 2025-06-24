@@ -260,7 +260,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", "MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", "ORSO Sample Builder", None))
         self.actionOpen.setText(QCoreApplication.translate("MainWindow", "Open...", None))
         self.label.setText(
             QCoreApplication.translate("MainWindow", "data_source:\n" "   sample:\n" "     model:", None)

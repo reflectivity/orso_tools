@@ -151,6 +151,7 @@ class Ui_MainWindow(object):
         self.header_tree.itemClicked.connect(MainWindow.show_dataset_item)
         self.button_expand.pressed.connect(self.header_tree.expandAll)
         self.button_collapse.pressed.connect(self.header_tree.collapseAll)
+        self.actionOpen.triggered.connect(MainWindow.open_file)
 
         self.tabWidget.setCurrentIndex(0)
 
@@ -159,7 +160,7 @@ class Ui_MainWindow(object):
     # setupUi
 
     def retranslateUi(self, MainWindow):
-        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", "MainWindow", None))
+        MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", "ORSO File Viewer", None))
         self.actionOpen.setText(QCoreApplication.translate("MainWindow", "Open...", None))
         self.tabWidget.setTabText(
             self.tabWidget.indexOf(self.plot_tab), QCoreApplication.translate("MainWindow", "Data", None)
