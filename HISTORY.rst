@@ -2,7 +2,7 @@
 History
 =======
 
-0.1.0 (2025-06-05)
+0.3.2 (2025-06-27)
 ------------------
 
-* First development version.
+* Initial release on ORSO github repository
