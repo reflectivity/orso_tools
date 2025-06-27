@@ -40,7 +40,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install pyinstaller
-        pip install git+https://github.com/aglavic/orsopy@expand_model_language
+        pip install git+https://github.com/reflectivity/orsopy@c253d8e7b80c4d4aad3c5d1b463c9781f6707820
         pip install scipy<1.16.0
         pip install -r requirements.txt
 

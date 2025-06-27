@@ -1,7 +1,7 @@
 pyside6
 numpy
 pyyaml
-orsopy
+orsopy>=1.2.2
 refnx
 matplotlib
 pint
